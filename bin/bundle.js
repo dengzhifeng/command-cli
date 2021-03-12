@@ -6375,23 +6375,108 @@ function __generator(thisArg, body) {
 }
 
 /*
+ * @description:
+ * @author: steve.deng
+ * @Date: 2021-03-11 17:01:06
+ * @LastEditors: steve.deng
+ * @LastEditTime: 2021-03-12 18:20:07
+ */
+function format_time(value, type) {
+    if (!value)
+        return null;
+    var time;
+    if (value.constructor === Date) {
+        time = value;
+    }
+    else {
+        time =
+            value.toString().length > 10
+                ? new Date(parseInt(value))
+                : new Date(parseInt(value) * 1000);
+    }
+    var formatTime = type ? type : 'yyyy-MM-dd hh:mm:ss';
+    var date = {
+        'M+': time.getMonth() + 1,
+        'd+': time.getDate(),
+        'h+': time.getHours(),
+        'm+': time.getMinutes(),
+        's+': time.getSeconds(),
+        'q+': Math.floor((time.getMonth() + 3) / 3),
+        'S+': time.getMilliseconds()
+    };
+    if (/(y+)/i.test(formatTime)) {
+        formatTime = formatTime.replace(RegExp.$1, (time.getFullYear() + '').substr(4 - RegExp.$1.length));
+    }
+    for (var k in date) {
+        if (new RegExp('(' + k + ')').test(formatTime)) {
+            formatTime = formatTime.replace(RegExp.$1, RegExp.$1.length == 1
+                ? date[k]
+                : ('00' + date[k]).substr(('' + date[k]).length));
+        }
+    }
+    return formatTime;
+}
+
+/*
  * @description: 提交代码命令
  * @author: steve.deng
  * @Date: 2021-03-12 17:43:20
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-12 18:07:37
+ * @LastEditTime: 2021-03-12 18:18:41
  */
+var exec = util$1.promisify(childProcess__default['default'].exec);
 var push = function (program) {
     console.log('program');
     program
         .command('push')
+        .option('-m, --message <message>', 'replace file')
         .description('run push commands for all envs')
-        .action(function (env, options) {
+        .action(function (options) {
         return __awaiter(this, void 0, void 0, function () {
+            var tagName, message, error_1;
             return __generator(this, function (_a) {
-                console.log('env, options');
-                console.log(env, options);
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        console.log(options);
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 10, , 11]);
+                        tagName = "" + format_time(new Date().getTime(), 'yyyy-MM-dd-hh:mm:ss');
+                        message = options.message || "feat:" + tagName;
+                        return [4 /*yield*/, exec("git init")];
+                    case 2:
+                        _a.sent();
+                        return [4 /*yield*/, exec("git add .")];
+                    case 3:
+                        _a.sent();
+                        return [4 /*yield*/, exec("git stash")];
+                    case 4:
+                        _a.sent();
+                        return [4 /*yield*/, exec("git pull origin")];
+                    case 5:
+                        _a.sent();
+                        return [4 /*yield*/, exec("git stash pop")];
+                    case 6:
+                        _a.sent();
+                        return [4 /*yield*/, exec("git add .")];
+                    case 7:
+                        _a.sent();
+                        return [4 /*yield*/, exec("git commit -m " + message).catch(function (error) {
+                                console.log('commit---->', error);
+                            })];
+                    case 8:
+                        _a.sent();
+                        return [4 /*yield*/, exec("git push origin")];
+                    case 9:
+                        _a.sent();
+                        console.log('代码提交成功');
+                        return [3 /*break*/, 11];
+                    case 10:
+                        error_1 = _a.sent();
+                        console.log('command push---->', error_1);
+                        return [3 /*break*/, 11];
+                    case 11: return [2 /*return*/];
+                }
             });
         });
     });
