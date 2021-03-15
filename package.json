@@ -8,7 +8,8 @@
     },
     "scripts": {
         "dev": "cross-env NODE_ENV=dev rollup -c -w",
-        "build": "cross-env NODE_ENV=production rollup -c"
+        "build": "cross-env NODE_ENV=production rollup -c",
+        "push": "npx tool-cli push"
     },
     "repository": {
         "type": "git",

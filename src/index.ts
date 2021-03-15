@@ -3,7 +3,7 @@
  * @author: steve.deng
  * @Date: 2021-02-03 16:57:56
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-12 18:07:16
+ * @LastEditTime: 2021-03-15 17:02:59
  */
 import program from 'commander';
 import cp from 'child_process';
@@ -13,7 +13,7 @@ import config from './config';
 import { version } from '../package.json';
 import chalk from 'chalk';
 import { push } from './command';
-const exex = util.promisify(cp.exec);
+// const exex = util.promisify(cp.exec);
 
 const defaultConfig: { [name: string]: any } = {};
 const usageList: string[] = [];
@@ -34,6 +34,7 @@ program.on('--help', () => {
 });
 
 console.log(push);
+// 提交代码
 push(program);
 
 // 解析传入参数 必须放到最后
