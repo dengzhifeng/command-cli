@@ -6422,22 +6422,24 @@ exports.callbackify = callbackify;
  * @author: steve.deng
  * @Date: 2021-03-12 17:43:20
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-12 18:18:41
+ * @LastEditTime: 2021-03-15 18:16:33
  */
 var exec = util.promisify(childProcess__default['default'].exec);
 var push = function (program) {
     console.log('program');
     program
         .command('push')
-        .option('-m, --message <message>', 'replace file')
-        .description('run push commands for all envs')
-        .action(function (options) {
+        .arguments('<cmd>')
+        .option('-m, --message <message>', 'commit message')
+        .description('run push commands')
+        .action(function (cmd, options) {
         return __awaiter(this, void 0, void 0, function () {
             var tagName, message, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         console.log(options);
+                        console.log('cmd', cmd);
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 10, , 11]);
@@ -6487,7 +6489,7 @@ var push = function (program) {
  * @author: steve.deng
  * @Date: 2021-02-03 16:57:56
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-15 17:02:59
+ * @LastEditTime: 2021-03-15 18:10:41
  */
 var usageList = [];
 // 定义命令版本

@@ -3,7 +3,7 @@
  * @author: steve.deng
  * @Date: 2021-03-12 17:43:20
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-12 18:18:41
+ * @LastEditTime: 2021-03-15 18:16:33
  */
 
 import { CommanderStatic } from 'commander';
@@ -15,10 +15,12 @@ const push = function (program: CommanderStatic) {
     console.log('program');
     program
         .command('push')
-        .option('-m, --message <message>', 'replace file')
-        .description('run push commands for all envs')
-        .action(async function (options) {
+        .arguments('<cmd>')
+        .option('-m, --message <message>', 'commit message')
+        .description('run push commands')
+        .action(async function (cmd, options) {
             console.log(options);
+            console.log('cmd', cmd);
             try {
                 const tagName = `${format_time(
                     new Date().getTime(),
