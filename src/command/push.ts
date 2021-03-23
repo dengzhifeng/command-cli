@@ -3,7 +3,7 @@
  * @author: steve.deng
  * @Date: 2021-03-12 17:43:20
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-15 18:16:33
+ * @LastEditTime: 2021-03-15 18:18:51
  */
 
 import { CommanderStatic } from 'commander';
@@ -15,12 +15,10 @@ const push = function (program: CommanderStatic) {
     console.log('program');
     program
         .command('push')
-        .arguments('<cmd>')
         .option('-m, --message <message>', 'commit message')
         .description('run push commands')
-        .action(async function (cmd, options) {
+        .action(async function (options) {
             console.log(options);
-            console.log('cmd', cmd);
             try {
                 const tagName = `${format_time(
                     new Date().getTime(),

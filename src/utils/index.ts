@@ -3,15 +3,20 @@
  * @author: steve.deng
  * @Date: 2021-03-11 17:01:06
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-12 18:20:07
+ * @LastEditTime: 2021-03-23 17:39:28
  */
 import path from 'path';
+import util from 'util';
+import cp from 'child_process';
+
+// exec promise化
+const exec = util.promisify(cp.exec);
 // 解析路径
 const resolve: (pathname: string) => string = (pathname) => {
     return path.resolve(process.cwd(), pathname);
 };
 
-function format_time(value: any, type: string) {
+const format_time = (value: any, type: string) => {
     if (!value) return null;
     let time;
     if (value.constructor === Date) {
@@ -49,6 +54,6 @@ function format_time(value: any, type: string) {
         }
     }
     return formatTime;
-}
+};
 
-export { format_time, resolve };
+export { format_time, resolve, exec };

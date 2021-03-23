@@ -4196,49 +4196,6 @@ function __generator(thisArg, body) {
     }
 }
 
-/*
- * @description:
- * @author: steve.deng
- * @Date: 2021-03-11 17:01:06
- * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-12 18:20:07
- */
-function format_time(value, type) {
-    if (!value)
-        return null;
-    var time;
-    if (value.constructor === Date) {
-        time = value;
-    }
-    else {
-        time =
-            value.toString().length > 10
-                ? new Date(parseInt(value))
-                : new Date(parseInt(value) * 1000);
-    }
-    var formatTime = type ? type : 'yyyy-MM-dd hh:mm:ss';
-    var date = {
-        'M+': time.getMonth() + 1,
-        'd+': time.getDate(),
-        'h+': time.getHours(),
-        'm+': time.getMinutes(),
-        's+': time.getSeconds(),
-        'q+': Math.floor((time.getMonth() + 3) / 3),
-        'S+': time.getMilliseconds()
-    };
-    if (/(y+)/i.test(formatTime)) {
-        formatTime = formatTime.replace(RegExp.$1, (time.getFullYear() + '').substr(4 - RegExp.$1.length));
-    }
-    for (var k in date) {
-        if (new RegExp('(' + k + ')').test(formatTime)) {
-            formatTime = formatTime.replace(RegExp.$1, RegExp.$1.length == 1
-                ? date[k]
-                : ('00' + date[k]).substr(('' + date[k]).length));
-        }
-    }
-    return formatTime;
-}
-
 /* eslint complexity: [2, 18], max-statements: [2, 33] */
 var shams = function hasSymbols() {
 	if (typeof Symbol !== 'function' || typeof Object.getOwnPropertySymbols !== 'function') { return false; }
@@ -6418,28 +6375,75 @@ exports.callbackify = callbackify;
 });
 
 /*
+ * @description:
+ * @author: steve.deng
+ * @Date: 2021-03-11 17:01:06
+ * @LastEditors: steve.deng
+ * @LastEditTime: 2021-03-23 17:39:28
+ */
+// exec promise化
+var exec$1 = util.promisify(childProcess__default['default'].exec);
+// 解析路径
+var resolve = function (pathname) {
+    return path__default['default'].resolve(process.cwd(), pathname);
+};
+var format_time = function (value, type) {
+    if (!value)
+        return null;
+    var time;
+    if (value.constructor === Date) {
+        time = value;
+    }
+    else {
+        time =
+            value.toString().length > 10
+                ? new Date(parseInt(value))
+                : new Date(parseInt(value) * 1000);
+    }
+    var formatTime = type ? type : 'yyyy-MM-dd hh:mm:ss';
+    var date = {
+        'M+': time.getMonth() + 1,
+        'd+': time.getDate(),
+        'h+': time.getHours(),
+        'm+': time.getMinutes(),
+        's+': time.getSeconds(),
+        'q+': Math.floor((time.getMonth() + 3) / 3),
+        'S+': time.getMilliseconds()
+    };
+    if (/(y+)/i.test(formatTime)) {
+        formatTime = formatTime.replace(RegExp.$1, (time.getFullYear() + '').substr(4 - RegExp.$1.length));
+    }
+    for (var k in date) {
+        if (new RegExp('(' + k + ')').test(formatTime)) {
+            formatTime = formatTime.replace(RegExp.$1, RegExp.$1.length == 1
+                ? date[k]
+                : ('00' + date[k]).substr(('' + date[k]).length));
+        }
+    }
+    return formatTime;
+};
+
+/*
  * @description: 提交代码命令
  * @author: steve.deng
  * @Date: 2021-03-12 17:43:20
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-15 18:16:33
+ * @LastEditTime: 2021-03-15 18:18:51
  */
 var exec = util.promisify(childProcess__default['default'].exec);
 var push = function (program) {
     console.log('program');
     program
         .command('push')
-        .arguments('<cmd>')
         .option('-m, --message <message>', 'commit message')
         .description('run push commands')
-        .action(function (cmd, options) {
+        .action(function (options) {
         return __awaiter(this, void 0, void 0, function () {
             var tagName, message, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         console.log(options);
-                        console.log('cmd', cmd);
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 10, , 11]);
@@ -6485,11 +6489,54 @@ var push = function (program) {
 };
 
 /*
+ * @description: 替换文件命令
+ * @author: steve.deng
+ * @Date: 2021-03-15 18:19:27
+ * @LastEditors: steve.deng
+ * @LastEditTime: 2021-03-23 18:13:16
+ */
+// const exec = util.promisify(cp.exec);
+var replaceFile = function (program) {
+    console.log('npx tool-cli replace-file --oldFile test-oldFile.js --newFile test-newFile.js', program);
+    program
+        .command('replace-file')
+        .option('-o, --oldFile <oldFile>', 'old file path') // 旧文件， 被覆盖的文件
+        .option('-n, --newFile <newFile>', 'new file path') // 新的文件
+        .description('relace oldFile to newFile ')
+        .action(function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var oldFile, newFile, error_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        console.log(options);
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        oldFile = options.oldFile;
+                        newFile = options.newFile;
+                        return [4 /*yield*/, exec$1("cp -f " + resolve(newFile) + " " + resolve(oldFile))];
+                    case 2:
+                        _a.sent();
+                        console.log(source.green('替换文件成功'));
+                        return [3 /*break*/, 4];
+                    case 3:
+                        error_1 = _a.sent();
+                        console.log('replace error---->', error_1);
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    });
+};
+
+/*
  * @description:
  * @author: steve.deng
  * @Date: 2021-02-03 16:57:56
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-15 18:10:41
+ * @LastEditTime: 2021-03-23 18:05:15
  */
 var usageList = [];
 // 定义命令版本
@@ -6511,5 +6558,6 @@ commander.on('--help', function () {
 console.log(push);
 // 提交代码
 push(commander);
+replaceFile(commander);
 // 解析传入参数 必须放到最后
 commander.parse(process.argv);
