@@ -6150,11 +6150,9 @@ var push = function (program) {
  * @author: steve.deng
  * @Date: 2021-03-15 18:19:27
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-23 18:13:16
+ * @LastEditTime: 2021-03-24 07:00:40
  */
-// const exec = util.promisify(cp.exec);
 var replaceFile = function (program) {
-    console.log('npx tool-cli replace-file --oldFile test-oldFile.js --newFile test-newFile.js', program);
     program
         .command('replace-file')
         .option('-o, --oldFile <oldFile>', 'old file path') // 旧文件， 被覆盖的文件
