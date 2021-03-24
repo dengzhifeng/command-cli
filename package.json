@@ -2,15 +2,14 @@
     "name": "tool-cli",
     "version": "1.0.0",
     "description": "命令行工具",
-    "main": "index.js",
+    "main": "./bin/bundle.js",
     "bin": {
         "tool-cli": "./bin/bundle.js"
     },
     "scripts": {
         "dev": "cross-env NODE_ENV=dev rollup -c -w",
         "build": "cross-env NODE_ENV=production rollup -c",
-        "push": "npx tool-cli push",
-        "push1": "npx hf-cli push",
+        "push": "tool-cli push",
         "replace": "tool-cli replace-file --oldFile test-oldFile.js --newFile test-newFile.js"
     },
     "repository": {
