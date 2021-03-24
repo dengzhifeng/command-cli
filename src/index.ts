@@ -3,7 +3,7 @@
  * @author: steve.deng
  * @Date: 2021-02-03 16:57:56
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-24 11:23:10
+ * @LastEditTime: 2021-03-24 11:48:38
  */
 import program from 'commander';
 import config from './config';
@@ -28,10 +28,8 @@ program.on('--help', () => {
         console.log(`${'  ' + chalk.green(line)}`);
     });
 });
-
 // 提交代码
 push(program);
 replaceFile(program);
-
 // 解析传入参数 必须放到最后
 program.parse(process.argv);

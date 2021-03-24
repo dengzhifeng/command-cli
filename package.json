@@ -9,7 +9,7 @@
     "scripts": {
         "dev": "cross-env NODE_ENV=dev rollup -c -w",
         "build": "cross-env NODE_ENV=production rollup -c",
-        "push": "npx tool-cli push",
+        "push": "tool-cli push",
         "replace": "tool-cli replace-file --oldFile test-oldFile.js --newFile test-newFile.js"
     },
     "repository": {
