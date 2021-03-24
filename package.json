@@ -3,14 +3,12 @@
     "version": "0.0.1",
     "description": "命令行工具",
     "main": "./bin/bundle.js",
-    "bin": {
-        "tool-cli": "./bin/bundle.js"
-    },
+    "bin": "./bin/bundle.js",
     "scripts": {
         "dev": "cross-env NODE_ENV=dev rollup -c -w",
         "build": "cross-env NODE_ENV=production rollup -c",
-        "push": "tool-cli push",
-        "replace": "tool-cli replace-file --oldFile test-oldFile.js --newFile test-newFile.js"
+        "push": "command-cli push",
+        "replace": "command-cli replace-file --oldFile test-oldFile.js --newFile test-newFile.js"
     },
     "repository": {
         "type": "git",
