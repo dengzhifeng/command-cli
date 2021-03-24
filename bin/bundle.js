@@ -6534,7 +6534,7 @@ var replaceFile = function (program) {
  * @author: steve.deng
  * @Date: 2021-02-03 16:57:56
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-23 18:05:15
+ * @LastEditTime: 2021-03-24 11:23:10
  */
 var usageList = [];
 // 定义命令版本
@@ -6553,7 +6553,6 @@ commander.on('--help', function () {
         console.log("" + ('  ' + source.green(line)));
     });
 });
-console.log(push);
 // 提交代码
 push(commander);
 replaceFile(commander);
