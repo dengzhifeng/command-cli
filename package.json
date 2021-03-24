@@ -1,6 +1,6 @@
 {
     "name": "command-cli",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "命令行工具",
     "main": "./bin/bundle.js",
     "bin": "./bin/bundle.js",

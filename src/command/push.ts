@@ -3,7 +3,7 @@
  * @author: steve.deng
  * @Date: 2021-03-12 17:43:20
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-15 18:18:51
+ * @LastEditTime: 2021-03-24 15:00:49
  */
 
 import { CommanderStatic } from 'commander';
@@ -12,13 +12,11 @@ import util from 'util';
 import cp from 'child_process';
 const exec = util.promisify(cp.exec);
 const push = function (program: CommanderStatic) {
-    console.log('program');
     program
         .command('push')
         .option('-m, --message <message>', 'commit message')
         .description('run push commands')
         .action(async function (options) {
-            console.log(options);
             try {
                 const tagName = `${format_time(
                     new Date().getTime(),

@@ -3,7 +3,7 @@
  * @author: steve.deng
  * @Date: 2021-02-03 17:04:31
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-11 17:54:44
+ * @LastEditTime: 2021-03-24 15:00:36
  */
 import path from 'path';
 import ts from 'rollup-plugin-typescript2';
@@ -13,7 +13,7 @@ import json from '@rollup/plugin-json'; // 可导入json
 import { terser } from 'rollup-plugin-terser'; // 压缩包
 
 const env = process.env.NODE_ENV;
-console.log(env);
+console.log('环境：', env);
 const config = {
     input: 'src/index.ts',
     output: {
@@ -30,7 +30,7 @@ const config = {
         // node模块路径解析 可以使用node_module里面的模块
         nodeResolve({
             extensions: ['.js', '.ts'],
-            preferBuiltins: true // preferBuiltins: true'来禁用此警告  =>  插件node-resolve:更喜欢内置模块'util'而不是本地可选模块'F: git\tool-cli\node_modules\util\util。. js'
+            preferBuiltins: true // preferBuiltins: true'来禁用此警告  =>  插件node-resolve:更喜欢内置模块'util'而不是本地可选模块'F: git\command-cli\node_modules\util\util。. js'
         }),
         commonjs(), // commonjs模块转成es6才能 import xx from xx 🍣 A Rollup plugin to convert CommonJS modules to ES6, so they can be included in a Rollup bundle
         json()
