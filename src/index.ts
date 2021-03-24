@@ -3,13 +3,13 @@
  * @author: steve.deng
  * @Date: 2021-02-03 16:57:56
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-24 11:57:29
+ * @LastEditTime: 2021-03-24 18:02:58
  */
 import program from 'commander';
 import config from './config';
 import { version } from '../package.json';
 import chalk from 'chalk';
-import { push, replaceFile } from './command';
+import { push, replaceFile, mergeBranch } from './command';
 
 const defaultConfig: { [name: string]: any } = {};
 const usageList: string[] = [];
@@ -31,5 +31,6 @@ program.on('--help', () => {
 // 提交代码
 push(program);
 replaceFile(program);
+mergeBranch(program);
 // 解析传入参数 必须放到最后
 program.parse(process.argv);
