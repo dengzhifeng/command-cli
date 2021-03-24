@@ -14,14 +14,14 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/dengzhifeng/tool-cli.git"
+        "url": "git+https://github.com/dengzhifeng/command-cli.git"
     },
     "author": "dzf",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/dengzhifeng/tool-cli/issues"
+        "url": "https://github.com/dengzhifeng/command-cli/issues"
     },
-    "homepage": "https://github.com/dengzhifeng/tool-cli#readme",
+    "homepage": "https://github.com/dengzhifeng/command-cli#readme",
     "devDependencies": {
         "@rollup/plugin-commonjs": "^17.1.0",
         "@rollup/plugin-json": "^4.1.0",
