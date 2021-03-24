@@ -10,6 +10,7 @@
         "dev": "cross-env NODE_ENV=dev rollup -c -w",
         "build": "cross-env NODE_ENV=production rollup -c",
         "push": "tool-cli push",
+        "push1": "npx hf-cli push",
         "replace": "tool-cli replace-file --oldFile test-oldFile.js --newFile test-newFile.js"
     },
     "repository": {
