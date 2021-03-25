@@ -2272,7 +2272,7 @@ var config = {
     }
 };
 
-var version = "0.0.2";
+var version = "0.0.4";
 
 var colorName = {
 	"aliceblue": [240, 248, 255],
@@ -6530,14 +6530,14 @@ var replaceFile = function (program) {
  * @author: steve.deng
  * @Date: 2021-03-12 17:43:20
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-25 09:58:49
+ * @LastEditTime: 2021-03-25 10:09:33
  */
 var exec = util.promisify(childProcess__default['default'].exec);
 var mergeBranch = function (program) {
     program
         .command('merge-branch')
         .option('-t, --targetBranch [targetBranch]', 'merge target branch')
-        .option('-c, --mainBranch [mergeBranch]', 'main branch to merge others') // 例如master(mainBranch)合并dev(targetBranch)
+        .option('-m, --mainBranch [mergeBranch]', 'main branch to merge others') // 例如master(mainBranch)合并dev(targetBranch)
         .description('merge branch')
         .action(function (options) {
         return __awaiter(this, void 0, void 0, function () {

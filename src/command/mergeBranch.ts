@@ -3,7 +3,7 @@
  * @author: steve.deng
  * @Date: 2021-03-12 17:43:20
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-25 09:58:49
+ * @LastEditTime: 2021-03-25 10:09:33
  */
 
 import { CommanderStatic } from 'commander';
@@ -15,7 +15,7 @@ const mergeBranch = function (program: CommanderStatic) {
     program
         .command('merge-branch')
         .option('-t, --targetBranch [targetBranch]', 'merge target branch')
-        .option('-c, --mainBranch [mergeBranch]', 'main branch to merge others') // 例如master(mainBranch)合并dev(targetBranch)
+        .option('-m, --mainBranch [mergeBranch]', 'main branch to merge others') // 例如master(mainBranch)合并dev(targetBranch)
         .description('merge branch')
         .action(async function (options) {
             try {
