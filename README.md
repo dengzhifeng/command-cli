@@ -18,7 +18,6 @@ npm i command-cli -g
 
 ```
 command-cli push -m feat:更新的内容
-
 ```
 
 参数：
