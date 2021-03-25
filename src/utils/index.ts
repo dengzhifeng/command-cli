@@ -3,7 +3,7 @@
  * @author: steve.deng
  * @Date: 2021-03-11 17:01:06
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-25 10:44:43
+ * @LastEditTime: 2021-03-25 11:31:41
  */
 import path from 'path';
 import util from 'util';
@@ -17,17 +17,22 @@ const resolve: (pathname: string) => string = (pathname) => {
 };
 // 推送代码
 const gitPush: (message: string) => void = (message) => {
-    return new Promise(async () => {
-        await exec(`git init`);
-        await exec(`git add .`);
-        await exec(`git stash`);
-        await exec(`git pull origin`);
-        await exec(`git stash pop`);
-        await exec(`git add .`);
-        await exec(`git commit -m ${message}`).catch((error) => {
-            console.log('commit---->', error);
-        });
-        await exec(`git push origin`);
+    return new Promise(async (resolve, reject) => {
+        try {
+            await exec(`git init`);
+            await exec(`git add .`);
+            await exec(`git stash`);
+            await exec(`git pull origin`);
+            await exec(`git stash pop`);
+            await exec(`git add .`);
+            await exec(`git commit -m ${message}`).catch((error) => {
+                console.log('commit---->', error);
+            });
+            await exec(`git push origin`);
+            resolve('代码提交成功了');
+        } catch (error) {
+            reject(error);
+        }
     });
 };
 const format_time = (value: any, type: string) => {

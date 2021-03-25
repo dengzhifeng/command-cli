@@ -6382,10 +6382,13 @@ var resolve = function (pathname) {
 };
 // 推送代码
 var gitPush = function (message) {
-    return new Promise(function () { return __awaiter(void 0, void 0, void 0, function () {
+    return new Promise(function (resolve, reject) { return __awaiter(void 0, void 0, void 0, function () {
+        var error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, exec$2("git init")];
+                case 0:
+                    _a.trys.push([0, 9, , 10]);
+                    return [4 /*yield*/, exec$2("git init")];
                 case 1:
                     _a.sent();
                     return [4 /*yield*/, exec$2("git add .")];
@@ -6411,7 +6414,13 @@ var gitPush = function (message) {
                     return [4 /*yield*/, exec$2("git push origin")];
                 case 8:
                     _a.sent();
-                    return [2 /*return*/];
+                    resolve('代码提交成功了');
+                    return [3 /*break*/, 10];
+                case 9:
+                    error_1 = _a.sent();
+                    reject(error_1);
+                    return [3 /*break*/, 10];
+                case 10: return [2 /*return*/];
             }
         });
     }); });
