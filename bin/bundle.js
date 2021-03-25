@@ -6619,7 +6619,7 @@ var mergeBranch = function (program) {
  * @author: steve.deng
  * @Date: 2021-03-12 17:43:20
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-25 11:35:16
+ * @LastEditTime: 2021-03-25 11:37:41
  */
 var exec = util.promisify(cp__default['default'].exec);
 var pushMerge = function (program) {
@@ -6639,6 +6639,7 @@ var pushMerge = function (program) {
                         return [4 /*yield*/, gitPush(message)];
                     case 1:
                         _a.sent();
+                        console.log('merge-branch', '代码合并成功');
                         console.log('merge-branch', options);
                         targetBranch = options.targetBranch || "dev";
                         mainBranch = options.mainBranch || "master";

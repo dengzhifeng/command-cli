@@ -3,7 +3,7 @@
  * @author: steve.deng
  * @Date: 2021-03-12 17:43:20
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-25 11:35:16
+ * @LastEditTime: 2021-03-25 11:37:41
  */
 
 import { CommanderStatic } from 'commander';
@@ -21,6 +21,7 @@ const pushMerge = function (program: CommanderStatic) {
             try {
                 const message = `feat:合并更改`;
                 await gitPush(message);
+                console.log('merge-branch', '代码合并成功');
                 console.log('merge-branch', options);
                 const targetBranch = options.targetBranch || `dev`;
                 const mainBranch = options.mainBranch || `master`;
