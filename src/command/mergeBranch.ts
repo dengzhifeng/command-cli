@@ -3,7 +3,7 @@
  * @author: steve.deng
  * @Date: 2021-03-12 17:43:20
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-24 18:02:37
+ * @LastEditTime: 2021-03-25 09:58:49
  */
 
 import { CommanderStatic } from 'commander';
@@ -19,18 +19,19 @@ const mergeBranch = function (program: CommanderStatic) {
         .description('merge branch')
         .action(async function (options) {
             try {
+                console.log('merge-branch', options);
                 const targetBranch = options.targetBranch || `dev`;
                 const mainBranch = options.mainBranch || `master`;
                 await exec(`git init`);
                 await exec(`git checkout ${mainBranch}`);
                 await exec(`git pull`);
                 await exec(`git merge ${targetBranch}`);
-                await exec(`git add .`);
-                await exec(
-                    `git commit -m ${mainBranch}合并${targetBranch}分支`
-                ).catch((error) => {
-                    console.log('commit---->', error);
-                });
+                // await exec(`git add .`);
+                // await exec(
+                //     `git commit -m ${mainBranch}合并${targetBranch}分支`
+                // ).catch((error) => {
+                //     console.log('commit---->', error);
+                // });
                 await exec(`git push origin`);
 
                 console.log('代码提交成功');

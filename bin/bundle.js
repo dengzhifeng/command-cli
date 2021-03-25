@@ -6530,7 +6530,7 @@ var replaceFile = function (program) {
  * @author: steve.deng
  * @Date: 2021-03-12 17:43:20
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-24 18:02:37
+ * @LastEditTime: 2021-03-25 09:58:49
  */
 var exec = util.promisify(childProcess__default['default'].exec);
 var mergeBranch = function (program) {
@@ -6545,7 +6545,8 @@ var mergeBranch = function (program) {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 8, , 9]);
+                        _a.trys.push([0, 6, , 7]);
+                        console.log('merge-branch', options);
                         targetBranch = options.targetBranch || "dev";
                         mainBranch = options.mainBranch || "master";
                         return [4 /*yield*/, exec("git init")];
@@ -6560,24 +6561,28 @@ var mergeBranch = function (program) {
                         return [4 /*yield*/, exec("git merge " + targetBranch)];
                     case 4:
                         _a.sent();
-                        return [4 /*yield*/, exec("git add .")];
-                    case 5:
-                        _a.sent();
-                        return [4 /*yield*/, exec("git commit -m " + mainBranch + "\u5408\u5E76" + targetBranch + "\u5206\u652F").catch(function (error) {
-                                console.log('commit---->', error);
-                            })];
-                    case 6:
-                        _a.sent();
+                        // await exec(`git add .`);
+                        // await exec(
+                        //     `git commit -m ${mainBranch}合并${targetBranch}分支`
+                        // ).catch((error) => {
+                        //     console.log('commit---->', error);
+                        // });
                         return [4 /*yield*/, exec("git push origin")];
-                    case 7:
+                    case 5:
+                        // await exec(`git add .`);
+                        // await exec(
+                        //     `git commit -m ${mainBranch}合并${targetBranch}分支`
+                        // ).catch((error) => {
+                        //     console.log('commit---->', error);
+                        // });
                         _a.sent();
                         console.log('代码提交成功');
-                        return [3 /*break*/, 9];
-                    case 8:
+                        return [3 /*break*/, 7];
+                    case 6:
                         error_1 = _a.sent();
                         console.log('command push---->', error_1);
-                        return [3 /*break*/, 9];
-                    case 9: return [2 /*return*/];
+                        return [3 /*break*/, 7];
+                    case 7: return [2 /*return*/];
                 }
             });
         });
