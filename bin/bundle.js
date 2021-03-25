@@ -6555,7 +6555,7 @@ var replaceFile = function (program) {
  * @author: steve.deng
  * @Date: 2021-03-12 17:43:20
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-25 10:46:02
+ * @LastEditTime: 2021-03-25 11:33:55
  */
 var exec$1 = util.promisify(cp__default['default'].exec);
 var mergeBranch = function (program) {
@@ -6601,7 +6601,7 @@ var mergeBranch = function (program) {
                         //     console.log('commit---->', error);
                         // });
                         _a.sent();
-                        console.log('代码提交成功');
+                        console.log('代码合并成功');
                         return [3 /*break*/, 7];
                     case 6:
                         error_1 = _a.sent();
@@ -6619,7 +6619,7 @@ var mergeBranch = function (program) {
  * @author: steve.deng
  * @Date: 2021-03-12 17:43:20
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-25 10:47:45
+ * @LastEditTime: 2021-03-25 11:35:16
  */
 var exec = util.promisify(cp__default['default'].exec);
 var pushMerge = function (program) {
@@ -6669,7 +6669,7 @@ var pushMerge = function (program) {
                         //     console.log('commit---->', error);
                         // });
                         _a.sent();
-                        console.log('代码提交成功');
+                        console.log('代码合并成功');
                         return [3 /*break*/, 8];
                     case 7:
                         error_1 = _a.sent();

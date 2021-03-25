@@ -3,7 +3,7 @@
  * @author: steve.deng
  * @Date: 2021-03-12 17:43:20
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-25 10:47:45
+ * @LastEditTime: 2021-03-25 11:35:16
  */
 
 import { CommanderStatic } from 'commander';
@@ -36,7 +36,7 @@ const pushMerge = function (program: CommanderStatic) {
                 // });
                 await exec(`git push origin`);
 
-                console.log('代码提交成功');
+                console.log('代码合并成功');
             } catch (error) {
                 console.log('command push---->', error);
             }
