@@ -2,7 +2,7 @@
 'use strict';
 
 var require$$0 = require('events');
-var childProcess = require('child_process');
+var cp = require('child_process');
 var path = require('path');
 var fs = require('fs');
 var os = require('os');
@@ -12,7 +12,7 @@ var require$$0$1 = require('util');
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
 var require$$0__default = /*#__PURE__*/_interopDefaultLegacy(require$$0);
-var childProcess__default = /*#__PURE__*/_interopDefaultLegacy(childProcess);
+var cp__default = /*#__PURE__*/_interopDefaultLegacy(cp);
 var path__default = /*#__PURE__*/_interopDefaultLegacy(path);
 var fs__default = /*#__PURE__*/_interopDefaultLegacy(fs);
 var os__default = /*#__PURE__*/_interopDefaultLegacy(os);
@@ -1401,15 +1401,15 @@ class Command extends EventEmitter {
         // add executable arguments to spawn
         args = incrementNodeInspectorPort(process.execArgv).concat(args);
 
-        proc = childProcess__default['default'].spawn(process.argv[0], args, { stdio: 'inherit' });
+        proc = cp__default['default'].spawn(process.argv[0], args, { stdio: 'inherit' });
       } else {
-        proc = childProcess__default['default'].spawn(bin, args, { stdio: 'inherit' });
+        proc = cp__default['default'].spawn(bin, args, { stdio: 'inherit' });
       }
     } else {
       args.unshift(bin);
       // add executable arguments to spawn
       args = incrementNodeInspectorPort(process.execArgv).concat(args);
-      proc = childProcess__default['default'].spawn(process.execPath, args, { stdio: 'inherit' });
+      proc = cp__default['default'].spawn(process.execPath, args, { stdio: 'inherit' });
     }
 
     const signals = ['SIGUSR1', 'SIGUSR2', 'SIGTERM', 'SIGINT', 'SIGHUP'];
@@ -6374,18 +6374,47 @@ function callbackify(original) {
 exports.callbackify = callbackify;
 });
 
-/*
- * @description:
- * @author: steve.deng
- * @Date: 2021-03-11 17:01:06
- * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-23 17:39:28
- */
 // exec promise化
-var exec$2 = util.promisify(childProcess__default['default'].exec);
+var exec$2 = util.promisify(cp__default['default'].exec);
 // 解析路径
 var resolve = function (pathname) {
     return path__default['default'].resolve(process.cwd(), pathname);
+};
+// 推送代码
+var gitPush = function (message) {
+    return new Promise(function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, exec$2("git init")];
+                case 1:
+                    _a.sent();
+                    return [4 /*yield*/, exec$2("git add .")];
+                case 2:
+                    _a.sent();
+                    return [4 /*yield*/, exec$2("git stash")];
+                case 3:
+                    _a.sent();
+                    return [4 /*yield*/, exec$2("git pull origin")];
+                case 4:
+                    _a.sent();
+                    return [4 /*yield*/, exec$2("git stash pop")];
+                case 5:
+                    _a.sent();
+                    return [4 /*yield*/, exec$2("git add .")];
+                case 6:
+                    _a.sent();
+                    return [4 /*yield*/, exec$2("git commit -m " + message).catch(function (error) {
+                            console.log('commit---->', error);
+                        })];
+                case 7:
+                    _a.sent();
+                    return [4 /*yield*/, exec$2("git push origin")];
+                case 8:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
 };
 var format_time = function (value, type) {
     if (!value)
@@ -6428,9 +6457,9 @@ var format_time = function (value, type) {
  * @author: steve.deng
  * @Date: 2021-03-12 17:43:20
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-24 15:00:49
+ * @LastEditTime: 2021-03-25 10:45:08
  */
-var exec$1 = util.promisify(childProcess__default['default'].exec);
+util.promisify(cp__default['default'].exec);
 var push = function (program) {
     program
         .command('push')
@@ -6442,42 +6471,29 @@ var push = function (program) {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 9, , 10]);
+                        _a.trys.push([0, 2, , 3]);
                         tagName = "" + format_time(new Date().getTime(), 'yyyy-MM-dd-hh:mm:ss');
                         message = options.message || "feat:" + tagName;
-                        return [4 /*yield*/, exec$1("git init")];
+                        return [4 /*yield*/, gitPush(message)];
                     case 1:
                         _a.sent();
-                        return [4 /*yield*/, exec$1("git add .")];
-                    case 2:
-                        _a.sent();
-                        return [4 /*yield*/, exec$1("git stash")];
-                    case 3:
-                        _a.sent();
-                        return [4 /*yield*/, exec$1("git pull origin")];
-                    case 4:
-                        _a.sent();
-                        return [4 /*yield*/, exec$1("git stash pop")];
-                    case 5:
-                        _a.sent();
-                        return [4 /*yield*/, exec$1("git add .")];
-                    case 6:
-                        _a.sent();
-                        return [4 /*yield*/, exec$1("git commit -m " + message).catch(function (error) {
-                                console.log('commit---->', error);
-                            })];
-                    case 7:
-                        _a.sent();
-                        return [4 /*yield*/, exec$1("git push origin")];
-                    case 8:
-                        _a.sent();
+                        // await exec(`git init`);
+                        // await exec(`git add .`);
+                        // await exec(`git stash`);
+                        // await exec(`git pull origin`);
+                        // await exec(`git stash pop`);
+                        // await exec(`git add .`);
+                        // await exec(`git commit -m ${message}`).catch((error) => {
+                        //     console.log('commit---->', error);
+                        // });
+                        // await exec(`git push origin`);
                         console.log('代码提交成功');
-                        return [3 /*break*/, 10];
-                    case 9:
+                        return [3 /*break*/, 3];
+                    case 2:
                         error_1 = _a.sent();
                         console.log('command push---->', error_1);
-                        return [3 /*break*/, 10];
-                    case 10: return [2 /*return*/];
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
             });
         });
@@ -6530,9 +6546,9 @@ var replaceFile = function (program) {
  * @author: steve.deng
  * @Date: 2021-03-12 17:43:20
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-25 10:09:33
+ * @LastEditTime: 2021-03-25 10:46:02
  */
-var exec = util.promisify(childProcess__default['default'].exec);
+var exec$1 = util.promisify(cp__default['default'].exec);
 var mergeBranch = function (program) {
     program
         .command('merge-branch')
@@ -6549,16 +6565,16 @@ var mergeBranch = function (program) {
                         console.log('merge-branch', options);
                         targetBranch = options.targetBranch || "dev";
                         mainBranch = options.mainBranch || "master";
-                        return [4 /*yield*/, exec("git init")];
+                        return [4 /*yield*/, exec$1("git init")];
                     case 1:
                         _a.sent();
-                        return [4 /*yield*/, exec("git checkout " + mainBranch)];
+                        return [4 /*yield*/, exec$1("git checkout " + mainBranch)];
                     case 2:
                         _a.sent();
-                        return [4 /*yield*/, exec("git pull")];
+                        return [4 /*yield*/, exec$1("git pull")];
                     case 3:
                         _a.sent();
-                        return [4 /*yield*/, exec("git merge " + targetBranch)];
+                        return [4 /*yield*/, exec$1("git merge " + targetBranch)];
                     case 4:
                         _a.sent();
                         // await exec(`git add .`);
@@ -6567,7 +6583,7 @@ var mergeBranch = function (program) {
                         // ).catch((error) => {
                         //     console.log('commit---->', error);
                         // });
-                        return [4 /*yield*/, exec("git push origin")];
+                        return [4 /*yield*/, exec$1("git push origin")];
                     case 5:
                         // await exec(`git add .`);
                         // await exec(
@@ -6590,11 +6606,88 @@ var mergeBranch = function (program) {
 };
 
 /*
+ * @description: 合并代码命令
+ * @author: steve.deng
+ * @Date: 2021-03-12 17:43:20
+ * @LastEditors: steve.deng
+ * @LastEditTime: 2021-03-25 10:47:45
+ */
+var exec = util.promisify(cp__default['default'].exec);
+var pushMerge = function (program) {
+    program
+        .command('push-merge')
+        .option('-t, --targetBranch [targetBranch]', 'merge target branch')
+        .option('-m, --mainBranch [mergeBranch]', 'main branch to merge others') // 例如master(mainBranch)合并dev(targetBranch)
+        .description('merge branch')
+        .action(function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var message, targetBranch, mainBranch, error_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 7, , 8]);
+                        message = "feat:\u5408\u5E76\u66F4\u6539";
+                        return [4 /*yield*/, gitPush(message)];
+                    case 1:
+                        _a.sent();
+                        console.log('merge-branch', options);
+                        targetBranch = options.targetBranch || "dev";
+                        mainBranch = options.mainBranch || "master";
+                        return [4 /*yield*/, exec("git init")];
+                    case 2:
+                        _a.sent();
+                        return [4 /*yield*/, exec("git checkout " + mainBranch)];
+                    case 3:
+                        _a.sent();
+                        return [4 /*yield*/, exec("git pull")];
+                    case 4:
+                        _a.sent();
+                        return [4 /*yield*/, exec("git merge " + targetBranch)];
+                    case 5:
+                        _a.sent();
+                        // await exec(`git add .`);
+                        // await exec(
+                        //     `git commit -m ${mainBranch}合并${targetBranch}分支`
+                        // ).catch((error) => {
+                        //     console.log('commit---->', error);
+                        // });
+                        return [4 /*yield*/, exec("git push origin")];
+                    case 6:
+                        // await exec(`git add .`);
+                        // await exec(
+                        //     `git commit -m ${mainBranch}合并${targetBranch}分支`
+                        // ).catch((error) => {
+                        //     console.log('commit---->', error);
+                        // });
+                        _a.sent();
+                        console.log('代码提交成功');
+                        return [3 /*break*/, 8];
+                    case 7:
+                        error_1 = _a.sent();
+                        console.log('command push---->', error_1);
+                        return [3 /*break*/, 8];
+                    case 8: return [2 /*return*/];
+                }
+            });
+        });
+    });
+};
+
+/*
+ * @description:
+ * @author: steve.deng
+ * @Date: 2021-03-12 17:44:26
+ * @LastEditors: steve.deng
+ * @LastEditTime: 2021-03-25 11:26:37
+ */
+var commandFn = [push, replaceFile, mergeBranch, pushMerge];
+
+/*
  * @description:
  * @author: steve.deng
  * @Date: 2021-02-03 16:57:56
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-24 18:02:58
+ * @LastEditTime: 2021-03-25 11:26:21
  */
 var usageList = [];
 // 定义命令版本
@@ -6613,9 +6706,15 @@ commander.on('--help', function () {
         console.log("" + ('  ' + source.green(line)));
     });
 });
+console.log('commandFn', commandFn);
+// 添加所有command子命令
+for (var key in commandFn) {
+    commandFn[key](commander);
+}
 // 提交代码
-push(commander);
-replaceFile(commander);
-mergeBranch(commander);
+// push(program);
+// replaceFile(program);
+// mergeBranch(program);
+// pushMerge(program);
 // 解析传入参数 必须放到最后
 commander.parse(process.argv);

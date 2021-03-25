@@ -10,7 +10,8 @@
         "publishPack": "npm publish",
         "push": "command-cli push",
         "replace": "command-cli replace-file --oldFile test-oldFile.js --newFile test-newFile.js",
-        "merge-branch": "command-cli merge-branch --targetBranch dev  --mainBranch master"
+        "merge-branch": "command-cli merge-branch --targetBranch dev  --mainBranch master",
+        "push-merge": "command-cli push-merge --targetBranch dev  --mainBranch master"
     },
     "repository": {
         "type": "git",

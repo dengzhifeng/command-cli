@@ -3,22 +3,24 @@
  * @author: steve.deng
  * @Date: 2021-03-12 17:43:20
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-25 10:46:02
+ * @LastEditTime: 2021-03-25 10:47:45
  */
 
 import { CommanderStatic } from 'commander';
-import { format_time } from '../utils';
+import { gitPush } from '../utils';
 import util from 'util';
 import cp from 'child_process';
 const exec = util.promisify(cp.exec);
-const mergeBranch = function (program: CommanderStatic) {
+const pushMerge = function (program: CommanderStatic) {
     program
-        .command('merge-branch')
+        .command('push-merge')
         .option('-t, --targetBranch [targetBranch]', 'merge target branch')
         .option('-m, --mainBranch [mergeBranch]', 'main branch to merge others') // 例如master(mainBranch)合并dev(targetBranch)
         .description('merge branch')
         .action(async function (options) {
             try {
+                const message = `feat:合并更改`;
+                await gitPush(message);
                 console.log('merge-branch', options);
                 const targetBranch = options.targetBranch || `dev`;
                 const mainBranch = options.mainBranch || `master`;
@@ -40,4 +42,4 @@ const mergeBranch = function (program: CommanderStatic) {
             }
         });
 };
-export default mergeBranch;
+export default pushMerge;

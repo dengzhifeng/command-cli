@@ -3,7 +3,7 @@
  * @author: steve.deng
  * @Date: 2021-03-11 17:01:06
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-23 17:39:28
+ * @LastEditTime: 2021-03-25 10:44:43
  */
 import path from 'path';
 import util from 'util';
@@ -15,7 +15,21 @@ const exec = util.promisify(cp.exec);
 const resolve: (pathname: string) => string = (pathname) => {
     return path.resolve(process.cwd(), pathname);
 };
-
+// 推送代码
+const gitPush: (message: string) => void = (message) => {
+    return new Promise(async () => {
+        await exec(`git init`);
+        await exec(`git add .`);
+        await exec(`git stash`);
+        await exec(`git pull origin`);
+        await exec(`git stash pop`);
+        await exec(`git add .`);
+        await exec(`git commit -m ${message}`).catch((error) => {
+            console.log('commit---->', error);
+        });
+        await exec(`git push origin`);
+    });
+};
 const format_time = (value: any, type: string) => {
     if (!value) return null;
     let time;
@@ -56,4 +70,4 @@ const format_time = (value: any, type: string) => {
     return formatTime;
 };
 
-export { format_time, resolve, exec };
+export { format_time, resolve, exec, gitPush };
