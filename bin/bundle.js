@@ -2272,7 +2272,7 @@ var config = {
     }
 };
 
-var version = "0.0.4";
+var version = "0.0.5";
 
 var colorName = {
 	"aliceblue": [240, 248, 255],
