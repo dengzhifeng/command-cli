@@ -7,7 +7,7 @@
     "scripts": {
         "dev": "cross-env NODE_ENV=dev rollup -c -w",
         "build": "cross-env NODE_ENV=production rollup -c",
-        "publishPack": "npm publish",
+        "publish-pack": "npm publish",
         "push": "command-cli push",
         "replace": "command-cli replace-file --oldFile test-oldFile.js --newFile test-newFile.js",
         "merge-branch": "command-cli merge-branch --targetBranch dev  --mainBranch master",
