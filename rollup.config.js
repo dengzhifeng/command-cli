@@ -3,7 +3,7 @@
  * @author: steve.deng
  * @Date: 2021-02-03 17:04:31
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-24 15:00:36
+ * @LastEditTime: 2021-04-29 11:40:20
  */
 import path from 'path';
 import ts from 'rollup-plugin-typescript2';
@@ -11,6 +11,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'; // 帮助寻找node_m
 import commonjs from '@rollup/plugin-commonjs'; // 将非ES6语法的包转为ES6可用
 import json from '@rollup/plugin-json'; // 可导入json
 import { terser } from 'rollup-plugin-terser'; // 压缩包
+import alias from 'rollup-plugin-alias';
 
 const env = process.env.NODE_ENV;
 console.log('环境：', env);
@@ -33,7 +34,15 @@ const config = {
             preferBuiltins: true // preferBuiltins: true'来禁用此警告  =>  插件node-resolve:更喜欢内置模块'util'而不是本地可选模块'F: git\command-cli\node_modules\util\util。. js'
         }),
         commonjs(), // commonjs模块转成es6才能 import xx from xx 🍣 A Rollup plugin to convert CommonJS modules to ES6, so they can be included in a Rollup bundle
-        json()
+        json(),
+        // 路径简写
+        alias({
+            resolve: ['.ts', '.js'],
+            entries: {
+                '@': './src',
+                lib: './src/lib'
+            }
+        })
     ]
 };
 // 生产打包要压缩

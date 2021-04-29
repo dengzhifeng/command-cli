@@ -3,11 +3,13 @@
  * @author: steve.deng
  * @Date: 2021-03-11 17:01:06
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-25 11:31:41
+ * @LastEditTime: 2021-04-29 15:43:57
  */
 import path from 'path';
 import util from 'util';
 import cp from 'child_process';
+import chalk from 'chalk';
+import ProgressBar from 'ora-progress-bar';
 
 // exec promise化
 const exec = util.promisify(cp.exec);
@@ -74,5 +76,41 @@ const format_time = (value: any, type: string) => {
     }
     return formatTime;
 };
+const log = (message: string) => console.log(chalk.green(`${message}`));
+const successLog = (message: string) => console.log(chalk.blue(`${message}`));
+const errorLog = (error: string) => console.log(chalk.red(`${error}`));
 
-export { format_time, resolve, exec, gitPush };
+// 封装包含进度条的函数
+const commonProgress = function (
+    text: string,
+    fn: any = () => {
+        return true;
+    }
+) {
+    return new Promise(async (resolve, reject) => {
+        let progressBar = new ProgressBar(text || 'Progress bar', 100);
+
+        try {
+            progressBar.progress(1);
+            await fn();
+            progressBar.progress(99); // 1 + 99 = 100 就完成进度条
+            resolve(true);
+        } catch (error) {
+            // spinner.fail('预览失败');
+            progressBar.fail();
+            console.error(chalk.red(error));
+            reject(false);
+        }
+    });
+};
+
+export {
+    format_time,
+    resolve,
+    exec,
+    gitPush,
+    log,
+    successLog,
+    errorLog,
+    commonProgress
+};

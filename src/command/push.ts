@@ -3,11 +3,11 @@
  * @author: steve.deng
  * @Date: 2021-03-12 17:43:20
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-03-25 10:45:08
+ * @LastEditTime: 2021-04-29 16:10:45
  */
 
 import { CommanderStatic } from 'commander';
-import { format_time, gitPush } from '../utils';
+import { commonProgress, format_time, gitPush } from '../utils';
 import util from 'util';
 import cp from 'child_process';
 const exec = util.promisify(cp.exec);
@@ -23,7 +23,11 @@ const push = function (program: CommanderStatic) {
                     'yyyy-MM-dd-hh:mm:ss'
                 )}`;
                 const message = options.message || `feat:${tagName}`;
-                await gitPush(message);
+                await commonProgress('push Progress', async function () {
+                    await gitPush(message);
+                    return true;
+                });
+
                 // await exec(`git init`);
                 // await exec(`git add .`);
                 // await exec(`git stash`);
