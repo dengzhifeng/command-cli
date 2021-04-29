@@ -11,7 +11,8 @@
         "push": "command-cli push",
         "replace": "command-cli replace-file --oldFile test-oldFile.js --newFile test-newFile.js",
         "merge-branch": "command-cli merge-branch --targetBranch dev  --mainBranch master",
-        "push-merge": "command-cli merge-branch --targetBranch dev  --mainBranch master -p true"
+        "push-merge": "command-cli merge-branch --targetBranch dev  --mainBranch master -p true",
+        "loading": "command-cli loading"
     },
     "repository": {
         "type": "git",

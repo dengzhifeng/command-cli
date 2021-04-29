@@ -5,7 +5,7 @@
  * @author: steve.deng
  * @Date: 2021-04-28 14:50:48
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-04-29 16:05:42
+ * @LastEditTime: 2021-04-29 16:57:05
  */
 import inquirer from 'inquirer';
 import path from 'path';
@@ -144,7 +144,13 @@ const uploadMini = function (program: CommanderStatic) {
         .command('loading')
         .description('loading')
         .action(async function () {
-            await commonProgress('test progress bar');
+            await commonProgress('test progress bar', function () {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        resolve(true);
+                    }, 10000);
+                });
+            });
         });
 };
 

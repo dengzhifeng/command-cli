@@ -3,7 +3,7 @@
  * @author: steve.deng
  * @Date: 2021-03-11 17:01:06
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-04-29 16:45:09
+ * @LastEditTime: 2021-04-29 16:58:45
  */
 import path from 'path';
 import util from 'util';
@@ -82,13 +82,14 @@ const errorLog = (error: string) => console.log(chalk.red(`${error}`));
 
 // 动态计算进度 到90就停止 等自动完成
 let st;
+let count = 0;
 function setProgressBar(progressBar) {
     if (st) clearInterval(st);
-    let i = 1;
     st = setInterval(() => {
-        progressBar.progress(i);
-        i++;
-        if (i >= 90) {
+        // 每次进度加1
+        progressBar.progress(1);
+        count++;
+        if (count >= 90) {
             clearInterval(st);
         }
     }, 1000);
@@ -106,7 +107,7 @@ const commonProgress = function (
         try {
             setProgressBar(progressBar);
             await fn();
-            progressBar.progress(99); // 1 + 99 = 100 就完成进度条
+            progressBar.progress(100 - count); // 1 + 99 = 100 就完成进度条
             clearInterval(st);
             resolve(true);
         } catch (error) {
