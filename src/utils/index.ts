@@ -3,7 +3,7 @@
  * @author: steve.deng
  * @Date: 2021-03-11 17:01:06
  * @LastEditors: steve.deng
- * @LastEditTime: 2021-04-29 15:43:57
+ * @LastEditTime: 2021-04-29 16:45:09
  */
 import path from 'path';
 import util from 'util';
@@ -80,6 +80,19 @@ const log = (message: string) => console.log(chalk.green(`${message}`));
 const successLog = (message: string) => console.log(chalk.blue(`${message}`));
 const errorLog = (error: string) => console.log(chalk.red(`${error}`));
 
+// 动态计算进度 到90就停止 等自动完成
+let st;
+function setProgressBar(progressBar) {
+    if (st) clearInterval(st);
+    let i = 1;
+    st = setInterval(() => {
+        progressBar.progress(i);
+        i++;
+        if (i >= 90) {
+            clearInterval(st);
+        }
+    }, 1000);
+}
 // 封装包含进度条的函数
 const commonProgress = function (
     text: string,
@@ -91,9 +104,10 @@ const commonProgress = function (
         let progressBar = new ProgressBar(text || 'Progress bar', 100);
 
         try {
-            progressBar.progress(1);
+            setProgressBar(progressBar);
             await fn();
             progressBar.progress(99); // 1 + 99 = 100 就完成进度条
+            clearInterval(st);
             resolve(true);
         } catch (error) {
             // spinner.fail('预览失败');
